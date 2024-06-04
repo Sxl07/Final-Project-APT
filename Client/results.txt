@@ -1,25 +1,25 @@
-89 prime
-71 prime
-89 prime
+10 semiprime
+10 semiprime
+25 cuadratic-semiprime
+15 semiprime
+12 No classified
+20 No classified
+10 semiprime
+11 prime
 23 prime
-92 No classified
-49 cuadratic-semiprime
-66 No classified
+11 prime
+12 No classified
+5 prime
+11 prime
+14 semiprime
+30 No classified
+9 cuadratic-semiprime
+12 No classified
+23 prime
 18 No classified
-16 No classified
-53 prime
-59 prime
-55 semiprime
-73 prime
-89 prime
-8 No classified
-96 No classified
-72 No classified
-36 No classified
-28 No classified
-44 No classified
-52 No classified
-47 prime
-33 semiprime
-43 prime
-81 No classified
+20 No classified
+9 cuadratic-semiprime
+0 No classified
+9 cuadratic-semiprime
+14 semiprime
+22 semiprime

@@ -1,12 +1,12 @@
-from os import getenv
 import socket
 import json
-import requests
+import requests # type: ignore
 from FactoryMethod.fizzbuzzcreator import FizzbuzzCreator
 from FactoryMethod.fibonaccicreator import FibonacciCreator
 from FactoryMethod.primecreator import PrimeCreator
 import hashlib
 import hmac
+from rsaencryption import RSAEncryption
 
 shutdown_flag = False
 
@@ -32,12 +32,7 @@ def checkPassword(password):
         return True
     return False
 
-def solve_problem(problem, values_count, min_value, max_value):
-    parameters={
-            "cant":values_count,
-            "min":min_value,
-            "max":max_value,
-        }
+def solve_problem(problem, parameters, transmitter, receiver_key):
     if problem == "fizzbuzz":
         problemSolver=FizzbuzzCreator()
     if problem == "fibonacci":
@@ -46,8 +41,18 @@ def solve_problem(problem, values_count, min_value, max_value):
         problemSolver=PrimeCreator()
     else:
         result = []
-    response=requests.post('http://localhost:5000/numbers',json=parameters)
-    numbers=response.json()["Numbers"]
+
+    with open("receiver_key.pem","w") as file:
+        file.write(receiver_key)
+
+    parameters_encrypted=transmitter.encrypt_message(json.dumps(parameters).encode(),'receiver_key.pem')
+    send={
+        "parameters_encrypted":parameters_encrypted.decode('utf-8')
+    }
+    response=requests.post('http://localhost:5000/numbers',json=send)
+    back_encrypted=response.json()['response_encrypted']
+    back_decrypted=transmitter.decrypt_message(back_encrypted).decode('utf-8')
+    numbers=json.loads(back_decrypted)['Numbers']
     result=problemSolver.problemSolution(numbers)
     return result
 
@@ -83,14 +88,25 @@ def handle_client_connection(client_socket,addr):
                     client_socket.send(response_shutdown.encode('utf-8'))
 
             if request.get('Problem') != "":
+                transmitter=RSAEncryption('transmitter')
+                transmitter.generate_keys()
+                transmitter_key=transmitter.to_json()
+                key_response=requests.post('http://localhost:5000/key',json=transmitter_key)
+                receiver_key=key_response.json()['public_key']
+                
                 problem = request.get('Problem')
                 values_count = int(request.get('Cant'))
                 min_value = int(request.get('Min'))
                 max_value = int(request.get('Max'))
+                parameters={
+                "cant":values_count,
+                "min":min_value,
+                "max":max_value,
+                    }
 
                 print(f"Resolviendo problema: {problem} con {values_count} valores entre {min_value} y {max_value}")
 
-                result = solve_problem(problem, values_count, min_value, max_value)
+                result = solve_problem(problem, parameters,transmitter,receiver_key)
                 response = {
                     'Result': result
                 }
@@ -116,8 +132,7 @@ def main():
     
         client_socket, addr = server_socket.accept()
         print('Conexión aceptada de:', addr)
-        handle_client_connection(client_socket,addr)
-        
+        handle_client_connection(client_socket,addr) 
     
     server_socket.close()
     print("Servidor apagado.")
