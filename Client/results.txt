@@ -1,25 +1,25 @@
-10 semiprime
-10 semiprime
-25 cuadratic-semiprime
-15 semiprime
-12 No classified
-20 No classified
-10 semiprime
-11 prime
-23 prime
-11 prime
-12 No classified
-5 prime
-11 prime
-14 semiprime
-30 No classified
-9 cuadratic-semiprime
-12 No classified
-23 prime
-18 No classified
-20 No classified
-9 cuadratic-semiprime
-0 No classified
-9 cuadratic-semiprime
-14 semiprime
-22 semiprime
+43 43
+43 43
+40 Buzz
+68 68
+90 FizzBuzz
+69 Fizz
+65 Buzz
+53 53
+32 32
+98 98
+-12 Fizz
+69 Fizz
+16 16
+65 Buzz
+72 Fizz
+39 Fizz
+-5 Buzz
+44 44
+149 149
+15 FizzBuzz
+-20 Buzz
+59 59
+94 94
+85 Buzz
+74 74

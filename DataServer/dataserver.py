@@ -42,7 +42,7 @@ def create_app(test_config=None):
             request_data = request.json
             parameters_encrypted=request_data['parameters_encrypted']
 
-            parameters_decrypted=receiver.decrypt_message(parameters_encrypted).decode('utf-8')
+            parameters_decrypted=receiver.decrypt_message(parameters_encrypted)
             parameters=json.loads(parameters_decrypted)
             cant=parameters['cant']
             limitmin=parameters['min']
@@ -55,11 +55,11 @@ def create_app(test_config=None):
             else:
                 randomWay=RandomUniformDistribution()
             random_numbers=randomWay.generateNumbers(cant,limitmin,limitmax)
-            random_numbers=[str(n) for n in random_numbers]
+            random_numbers=[str(abs(n)) for n in random_numbers]
             
             response={'Numbers': random_numbers}
-            response_encrypted=receiver.encrypt_message(json.dumps(response).encode(),'transmitter_key.pem')
-            back={"response_encrypted":response_encrypted.decode('utf-8')}
+            response_encrypted=receiver.encrypt_message(json.dumps(response),'transmitter_key.pem')
+            back={"response_encrypted":response_encrypted}
             return jsonify(back)
         
         @app.route('/shutdown', methods=['POST'])

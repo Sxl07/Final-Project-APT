@@ -9,6 +9,10 @@ import (
 	"github.com/spf13/cobra"
 )
 
+type Response struct {
+	Result []string `json:"result"`
+}
+
 var password string
 
 // shutdownCmd represents the shutdown command
@@ -22,13 +26,9 @@ Cobra is a CLI library for Go that empowers applications.
 This application is a tool to generate the needed files
 to quickly create a Cobra application.`,
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("shutdown called")
+
 		if password == "" {
 			fmt.Println("a password is require use -p 'password'")
-		}
-
-		if password != "admin" {
-			fmt.Println("Incorrect password")
 		}
 
 		request := Requests{
@@ -61,12 +61,11 @@ to quickly create a Cobra application.`,
 			fmt.Println("Error:", err)
 		}
 
-		var response Response
-		err = json.NewDecoder(conn).Decode(&response)
+		response, err := functions.DataResponse(conn)
 		if err != nil {
-			fmt.Println("Error al decodificar la respuesta JSON:", err)
+			fmt.Println(err)
 		}
-		fmt.Println("Respuesta del servidor:", response.Result)
+		fmt.Println(response.Result)
 
 	},
 }

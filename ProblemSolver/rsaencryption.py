@@ -1,7 +1,9 @@
 from Crypto.PublicKey import RSA
-from Crypto.Cipher import PKCS1_OAEP
+from Crypto.Cipher import PKCS1_OAEP, AES
+from Crypto.Random import get_random_bytes
 import binascii
 import os
+import json
 
 class RSAEncryption:
     def __init__(self, key_name):
@@ -42,14 +44,38 @@ class RSAEncryption:
             self.public_key = RSA.import_key(public_file.read())
 
     def encrypt_message(self, message, public_key_path):
+        if isinstance(message, str):
+            message = message.encode()
+
         with open(public_key_path, 'rb') as public_file:
             public_key = RSA.import_key(public_file.read())
 
-        cipher = PKCS1_OAEP.new(public_key)
-        encrypted_message = cipher.encrypt(message)
-        return binascii.hexlify(encrypted_message)
+        aes_key = get_random_bytes(16)
+        cipher_aes = AES.new(aes_key, AES.MODE_EAX)
+        ciphertext, tag = cipher_aes.encrypt_and_digest(message)
+
+        cipher_rsa = PKCS1_OAEP.new(public_key)
+        encrypted_aes_key = cipher_rsa.encrypt(aes_key)
+
+        encrypted_data = {
+            'aes_key': binascii.hexlify(encrypted_aes_key).decode('utf-8'),
+            'nonce': binascii.hexlify(cipher_aes.nonce).decode('utf-8'),
+            'tag': binascii.hexlify(tag).decode('utf-8'),
+            'ciphertext': binascii.hexlify(ciphertext).decode('utf-8')
+        }
+        return json.dumps(encrypted_data)
 
     def decrypt_message(self, encrypted_message):
-        cipher = PKCS1_OAEP.new(self.private_key)
-        decrypted_message = cipher.decrypt(binascii.unhexlify(encrypted_message))
-        return decrypted_message
+        encrypted_data = json.loads(encrypted_message)
+        encrypted_aes_key = binascii.unhexlify(encrypted_data['aes_key'])
+        nonce = binascii.unhexlify(encrypted_data['nonce'])
+        tag = binascii.unhexlify(encrypted_data['tag'])
+        ciphertext = binascii.unhexlify(encrypted_data['ciphertext'])
+
+        cipher_rsa = PKCS1_OAEP.new(self.private_key)
+        aes_key = cipher_rsa.decrypt(encrypted_aes_key)
+
+        cipher_aes = AES.new(aes_key, AES.MODE_EAX, nonce=nonce)
+        decrypted_message = cipher_aes.decrypt_and_verify(ciphertext, tag)
+
+        return decrypted_message.decode('utf-8')

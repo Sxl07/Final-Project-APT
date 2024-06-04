@@ -13,10 +13,6 @@ import (
 	"github.com/spf13/cobra"
 )
 
-type Response struct {
-	Result []string `json:"result"`
-}
-
 type Requests struct {
 	Problem  string
 	Cant     int
@@ -68,38 +64,54 @@ to quickly create a Cobra application.`,
 			fmt.Println("error:", err)
 		}
 
-		err = functions.SendData(jsonData, conn)
-		if err != nil {
-			fmt.Println("Error:", err)
+		bad := false
+		if problem == "" {
+			fmt.Println("Problem cannot be empty")
+			bad = true
+		}
+		if cant <= 1 {
+			fmt.Println("Quantity cannot be less than 1")
+			bad = true
+		}
+		if min < 0 {
+			fmt.Println("Low limit cannot be negative")
+			bad = true
+		}
+		if max < min {
+			fmt.Println("Superior limit cannot be less than low limit")
+			bad = true
 		}
 
-		var response Response
-		err = json.NewDecoder(conn).Decode(&response)
-		if err != nil {
-			fmt.Println("Error al decodificar la respuesta JSON:", err)
-		}
-
-		fmt.Println("Respuesta del servidor:", response)
-
-		if result == "y" {
-			fileName := "results.txt"
-
-			content := strings.Join(response.Result, "\n")
-
-			file, err := os.OpenFile(fileName, os.O_WRONLY|os.O_CREATE|os.O_TRUNC, 0644)
+		if !bad {
+			err = functions.SendData(jsonData, conn)
 			if err != nil {
-				fmt.Println("Error al abrir el archivo:", err)
-				return
-			}
-			defer file.Close()
-
-			_, err = file.WriteString(content)
-			if err != nil {
-				fmt.Println("Error al escribir en el archivo:", err)
-				return
+				fmt.Println("Error:", err)
 			}
 
-			fmt.Println("Archivo creado exitosamente.")
+			response, err := functions.DataResponse(conn)
+			if err != nil {
+				fmt.Println(err)
+			}
+			fmt.Println(response.Result)
+
+			if result == "y" || result == "Y" {
+				fileName := "results.txt"
+
+				content := strings.Join(response.Result, "\n")
+
+				file, err := os.OpenFile(fileName, os.O_WRONLY|os.O_CREATE|os.O_TRUNC, 0644)
+				if err != nil {
+					fmt.Println("Error opening the file:", err)
+				}
+				defer file.Close()
+
+				_, err = file.WriteString(content)
+				if err != nil {
+					fmt.Println("Error writing in the file:", err)
+				}
+				fmt.Println("File results.txt Created.")
+				fmt.Println("Your results are on the results.txt file.")
+			}
 		}
 		conn.Close()
 	},
@@ -124,9 +136,9 @@ func init() {
 	// Cobra also supports local flags, which will only run
 	// when this action is called directly.
 	rootCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
-	rootCmd.Flags().StringVarP(&problem, "problem", "p", "fizzbuzz", "Problem to be resolved")
+	rootCmd.Flags().StringVarP(&problem, "problem", "p", "fizzbuzz", "Problem to be resolved fizzbuzz|fibonacci|prime")
 	rootCmd.Flags().IntVarP(&cant, "quantity", "q", 25, "quantity of numbers")
-	rootCmd.Flags().IntVarP(&min, "inflimit", "i", 0, "minimum number")
-	rootCmd.Flags().IntVarP(&max, "suplimit", "s", 100, "maximum number")
-	rootCmd.Flags().StringVarP(&result, "result", "r", "", "output file")
+	rootCmd.Flags().IntVarP(&min, "lowlimit", "l", 0, "minimum number of the range")
+	rootCmd.Flags().IntVarP(&max, "suplimit", "s", 100, "maximum number of the range")
+	rootCmd.Flags().StringVarP(&result, "result", "r", "", "save results in results.txt file, if you want to save results enter '-r (y/n)'. Results printed on console by default")
 }

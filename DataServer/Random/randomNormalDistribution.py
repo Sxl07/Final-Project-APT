@@ -3,7 +3,7 @@ import numpy # type: ignore
 
 class RandomNormalDistribution(IRandomNumber):
     def generateNumbers(self, cant, minlimit, maxlimit):
-        numbers=numpy.random.uniform(cant,minlimit,maxlimit)
+        numbers=numpy.random.uniform(minlimit,maxlimit,cant).astype(int)
         mean=numpy.mean(numbers)
         deviation=numpy.std(numbers)
         numbers_random = numpy.random.normal(mean,deviation,cant).astype(int)
