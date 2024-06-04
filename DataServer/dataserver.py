@@ -1,9 +1,9 @@
 import json
 import os
 import random
+import signal
+import sys
 from flask import Flask,request,jsonify # type: ignore
-
-
 
 def create_app(test_config=None):
     # create and configure the app
@@ -26,14 +26,24 @@ def create_app(test_config=None):
     except OSError:
         pass
 
-    @app.route("/numbers", methods=("POST",))
-    def numbers():
-        request_data = request.json
-        cant=request_data['cant']
-        limitmin=request_data['min']
-        limitmax=request_data['max']
+        @app.route("/numbers", methods=("POST",))
+        def numbers():
+            request_data = request.json
+            cant=request_data['cant']
+            limitmin=request_data['min']
+            limitmax=request_data['max']
+            
+            random_numbers = [str(random.randint(limitmin,limitmax)) for _ in range(cant)]
+            response_json = {'Numbers': random_numbers}
+            return jsonify(response_json)
         
-        random_numbers = [str(random.randint(limitmin,limitmax)) for _ in range(cant)]
-        response_json = {'Numbers': random_numbers}
-        return jsonify(response_json)
+        @app.route('/shutdown', methods=['POST'])
+        def shutdown():
+            shutdown_server()
+            return 'Server shutting down...'
+
     return app
+
+def shutdown_server():
+    pid = os.getpid()
+    os.kill(pid, signal.SIGINT)

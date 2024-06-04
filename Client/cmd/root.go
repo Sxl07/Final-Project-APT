@@ -86,7 +86,7 @@ to quickly create a Cobra application.`,
 
 			content := strings.Join(response.Result, "\n")
 
-			file, err := os.OpenFile(fileName, os.O_WRONLY|os.O_TRUNC, 0644)
+			file, err := os.OpenFile(fileName, os.O_WRONLY|os.O_CREATE|os.O_TRUNC, 0644)
 			if err != nil {
 				fmt.Println("Error al abrir el archivo:", err)
 				return
