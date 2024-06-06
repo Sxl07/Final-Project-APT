@@ -8,7 +8,6 @@ import hashlib
 import hmac
 from rsaencryption import RSAEncryption
 import logging
-
 shutdown_flag = False
 
 def readFileConfiguration():
@@ -19,7 +18,7 @@ def readFileConfiguration():
             if line:
                 key, value = line.split(':', 1)
                 config[key.strip()] = value.strip()
-    return config.get('KEY'),config.get('PASSWORD')
+    return config.get('PASSWORD')
 
 def hashPassword(password, key):
     h = hmac.new(key.encode(), password.encode(), hashlib.sha256)
@@ -27,9 +26,8 @@ def hashPassword(password, key):
     return hashed_password
 
 def checkPassword(password):
-    key,correctPassword=readFileConfiguration()
-    hashedP=hashPassword(password,key)
-    if correctPassword==hashedP:
+    correctPassword=readFileConfiguration()
+    if password==correctPassword:
         return True
     return False
 
@@ -151,7 +149,6 @@ def main():
     datefmt='%Y-%m-%d %H:%M:%S',
     level=logging.INFO)
 
-
     global shutdown_flag
     server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     server_socket.bind(('0.0.0.0', 8080))
@@ -159,7 +156,6 @@ def main():
     print('Server listening at the port 8080...')
     
     while not shutdown_flag:
-    
         client_socket, addr = server_socket.accept()
         print('Connection accepted by:', addr)
         logging.info("-------------------------------")
@@ -168,7 +164,7 @@ def main():
     
     server_socket.close()
     logging.info("Socket connection closed")
-    print("Server off")
+    print("Server socket off")
     logging.info("ProblemSolver closed")
 if __name__ == '__main__':
     main()

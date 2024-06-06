@@ -1,7 +1,7 @@
-from FactoryMethod.i_problem_creator import IProblemCreator
+from .problem_creator import ProblemCreator
 from FactoryMethod.i_problem_solver import IProblemSolver
 from FactoryMethod.prime import Prime
 
-class PrimeCreator(IProblemCreator):
+class PrimeCreator(ProblemCreator):
     def factoryMethod(self) -> IProblemSolver:
         return Prime()

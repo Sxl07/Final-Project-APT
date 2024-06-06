@@ -1,7 +1,7 @@
 from FactoryMethod.fibonacci import Fibonacci
-from FactoryMethod.i_problem_creator import IProblemCreator
+from .problem_creator import ProblemCreator
 from FactoryMethod.i_problem_solver import IProblemSolver
 
-class FibonacciCreator(IProblemCreator):
+class FibonacciCreator(ProblemCreator):
     def factoryMethod(self) -> IProblemSolver:
         return Fibonacci()

@@ -2,7 +2,6 @@ from typing import List
 from FactoryMethod.i_problem_solver import IProblemSolver
 
 class Prime(IProblemSolver):
-
   def compute_results(self, data: List[str]) -> List[str]:
     result = []
     line = ""
@@ -42,5 +41,4 @@ class Prime(IProblemSolver):
     elif len(prime_divisors) == 1:
         if prime_divisors[0] ** 2 == n:
             return "cuadratic-semiprime"
-
     return "No classified"

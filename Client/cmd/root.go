@@ -59,7 +59,6 @@ to quickly create a Cobra application.`,
 		}
 
 		jsonData, err := json.Marshal(request)
-
 		if err != nil {
 			fmt.Println("error:", err)
 		}
@@ -69,7 +68,7 @@ to quickly create a Cobra application.`,
 			fmt.Println("Problem cannot be empty")
 			bad = true
 		}
-		if cant <= 1 {
+		if cant < 1 {
 			fmt.Println("Quantity cannot be less than 1")
 			bad = true
 		}

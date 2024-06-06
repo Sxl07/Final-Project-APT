@@ -1,8 +1,11 @@
 package cmd
 
 import (
+	"crypto/hmac"
+	"crypto/sha256"
 	"encoding/json"
 	"fmt"
+	"io/ioutil"
 	"log"
 
 	"github.com/Sxl07/Client/functions"
@@ -26,10 +29,20 @@ Cobra is a CLI library for Go that empowers applications.
 This application is a tool to generate the needed files
 to quickly create a Cobra application.`,
 	Run: func(cmd *cobra.Command, args []string) {
-
 		if password == "" {
 			fmt.Println("a password is require use -p 'password'")
 		}
+		filename := "key.txt"
+
+		secretKey, err := ioutil.ReadFile(filename)
+		if err != nil {
+			log.Fatalf("Error reading file: %v", err)
+		}
+
+		h := hmac.New(sha256.New, []byte(secretKey))
+		h.Write([]byte(password))
+		hash := h.Sum(nil)
+		hashPassword := fmt.Sprintf("%x", hash)
 
 		request := Requests{
 			Problem:  "",
@@ -38,7 +51,7 @@ to quickly create a Cobra application.`,
 			Max:      0,
 			Result:   "",
 			Shutdown: 1,
-			Password: password,
+			Password: hashPassword,
 		}
 
 		port := "localhost:8080"
@@ -48,15 +61,11 @@ to quickly create a Cobra application.`,
 		}
 
 		jsonData, err := json.Marshal(request)
-
 		if err != nil {
-
 			log.Fatalf("error: %v", err)
-
 		}
 
 		err = functions.SendData(jsonData, conn)
-
 		if err != nil {
 			fmt.Println("Error:", err)
 		}
@@ -66,7 +75,6 @@ to quickly create a Cobra application.`,
 			fmt.Println(err)
 		}
 		fmt.Println(response.Result)
-
 	},
 }
 
@@ -82,5 +90,5 @@ func init() {
 	// Cobra supports local flags which will only run when this command
 	// is called directly, e.g.:
 	// shutdownCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
-	shutdownCmd.Flags().StringVarP(&password, "password", "p", "", "the password to authenticate shutdown")
+	shutdownCmd.Flags().StringVarP(&password, "password", "p", "", "the password to authenticate shutdown,use -p 'password'")
 }

@@ -1,9 +1,7 @@
 from .fizzbuzz import FizzBuzz
-from .i_problem_creator import IProblemCreator
-
+from .problem_creator import ProblemCreator
 from .i_problem_solver import IProblemSolver
 
-
-class FizzbuzzCreator(IProblemCreator):
+class FizzbuzzCreator(ProblemCreator):
     def factoryMethod(self) -> IProblemSolver:
         return FizzBuzz()

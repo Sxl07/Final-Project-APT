@@ -1,7 +1,6 @@
 from typing import List
 from .i_problem_solver import IProblemSolver
 
-
 class FizzBuzz(IProblemSolver):
   def compute_results(self, data: List[str]) -> List[str]:
     result = []

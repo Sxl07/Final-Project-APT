@@ -1,0 +1,45 @@
+@startuml
+ProblemCreator <|-- FizzbuzzCreator
+ProblemCreator <|-- FibonacciCreator
+ProblemCreator <|-- PrimeCreator
+ProblemCreator ..> IProblemSolver
+FizzBuzz ..|> IProblemSolver
+Fibonacci ..|> IProblemSolver
+Prime ..|> IProblemSolver
+
+class ProblemCreator{
++factoryMethod():IProblemSolver
++problemSolution(data): List[str]
+}
+
+class FizzbuzzCreator{
++factoryMethod():FizzBuzz()
+}
+
+class FibonacciCreator{
++factoryMethod():Fibonacci()
+}
+
+class PrimeCreator{
++factoryMethod():Prime()
+}
+
+interface IProblemSolver{
++compute_results(data:List[str]):List[str]
+}
+
+class FizzBuzz{
+-fizzbuzz(n):int
++compute_results(data: List[str]):List[str]
+}
+
+class Fibonacci{
+-fibonacciVerifier(n):int
++compute_results(data: List[str]):List[str]
+}
+
+class Prime{
+-prime(n):int
++compute_results(data: List[str]):List[str]
+}
+@enduml
