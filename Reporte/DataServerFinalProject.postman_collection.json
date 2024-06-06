@@ -1,0 +1,98 @@
+{
+	"info": {
+		"_postman_id": "7c637555-0312-487d-9a0a-9b09dcb785fb",
+		"name": "DataServerFinalProject",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "30717841"
+	},
+	"item": [
+		{
+			"name": "http://127.0.0.1:5000/numbers (NumbersWithEncrypt)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Response status code is 200\", function () {\r",
+							"    pm.expect(pm.response.code).to.equal(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response has the required field - numbers\", function () {\r",
+							"  const responseData = pm.response.json();\r",
+							"  pm.expect(responseData).to.be.an('object');\r",
+							"  pm.expect(responseData.numbers).to.exist.and.to.be.an('array');\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Numbers array should not be empty\", function () {\r",
+							"    const responseData = pm.response.json(); \r",
+							"    pm.expect(responseData.numbers).to.be.an('array').that.is.not.empty;\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Content type is application/json\", function () {\r",
+							"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response time is less than 200ms\", function () {\r",
+							"  pm.expect(pm.response.responseTime).to.be.below(200);\r",
+							"});\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:5000/numbers",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"numbers"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://127.0.0.1:5000/numbers (NumbersEncrypt)",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"parameters_encrypted\": \"{\\\"aes_key\\\": \\\"791018c31de2fae86cb8c07bf47db5db8af1e38ff0c43613a864003a745361813a3022990ec6c0f9d7710bfcf6168bc4f1083251ed42ccd9f427e50f859b057c555eea2fb9905da8393a72c1b63a501947d22dcc2e6da81a48df7a87253e8399b55b9df15ddbb909a2850c71ced5628291e174983139ce3cd1f2f5d4a0b9b7a5b71de4be7fb02c9bd9bf1891e6e22abd21a9bd70f4c574cb1cff111664857f4a04252e822d4b6ae4ba85b08e322f3709eee9044c4a68181c83f9735c28daa23eea3bd32ff99d2ff9c5b09a836dbee8c08b96da1e902f88a910cc9d3592733e81618f2cf9532eab32d0d398852758c7e57249d7a5f4cfbf20acf7431d00afbaf8\\\", \\\"nonce\\\": \\\"e3647ceed35cb0a4469a42789c8d592d\\\", \\\"tag\\\": \\\"a177ed809e2dbc1fbe9d359542f773f3\\\", \\\"ciphertext\\\": \\\"71d69c3ccc0bfa5119fd3b42fd62d751b1242e944fd5c7a9eea39d3834da2bd6c35d\\\"}\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:5000/numbers",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"numbers"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

@@ -1,0 +1,10 @@
+14 semiprime
+11 prime
+66 No classified
+75 No classified
+62 semiprime
+87 semiprime
+33 semiprime
+5 prime
+88 No classified
+51 semiprime
