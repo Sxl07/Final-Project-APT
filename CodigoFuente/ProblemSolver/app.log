@@ -823,3 +823,34 @@
 2024-06-06 20:22:31 - root - INFO - Client socket closed
 2024-06-06 20:22:31 - root - INFO - Socket connection closed
 2024-06-06 20:22:31 - root - INFO - ProblemSolver closed
+2024-06-06 21:14:05 - root - INFO - -------------------------------
+2024-06-06 21:14:05 - root - INFO - Connection accepted by: ('127.0.0.1', 52309)
+2024-06-06 21:14:05 - root - INFO - Request data received by Client
+2024-06-06 21:14:08 - root - INFO - Public encryption keys exchanged
+2024-06-06 21:14:08 - root - INFO - Data encrypted
+2024-06-06 21:14:08 - root - INFO - Sending data encrypt to DataServer
+2024-06-06 21:14:10 - root - INFO - Encrypted response data received by DataServer
+2024-06-06 21:14:10 - root - INFO - Response data decrypted
+2024-06-06 21:14:10 - root - INFO - Resolving problem fizzbuzz
+2024-06-06 21:14:10 - root - INFO - Problem solved successfully
+2024-06-06 21:14:10 - root - INFO - Results sent to Client
+2024-06-06 21:14:10 - root - INFO - Client socket closed
+2024-06-06 21:14:26 - root - INFO - -------------------------------
+2024-06-06 21:14:26 - root - INFO - Connection accepted by: ('127.0.0.1', 52317)
+2024-06-06 21:14:26 - root - INFO - Request data received by Client
+2024-06-06 21:14:26 - root - INFO - Shutdown request received
+2024-06-06 21:14:26 - root - INFO - Shutdown request denied(Incorrect password)
+2024-06-06 21:14:26 - root - INFO - Problem not found
+2024-06-06 21:14:26 - root - INFO - Reconnected to ('127.0.0.1', 52317)
+2024-06-06 21:14:26 - root - INFO - Client socket closed
+2024-06-06 21:14:32 - root - INFO - -------------------------------
+2024-06-06 21:14:32 - root - INFO - Connection accepted by: ('127.0.0.1', 52319)
+2024-06-06 21:14:32 - root - INFO - Request data received by Client
+2024-06-06 21:14:32 - root - INFO - Shutdown request received
+2024-06-06 21:14:32 - root - INFO - Shutdown request accepted
+2024-06-06 21:14:32 - root - INFO - Closing client socket
+2024-06-06 21:14:32 - root - INFO - Closing Flask server
+2024-06-06 21:14:34 - root - INFO - Flask connection closed
+2024-06-06 21:14:34 - root - INFO - Client socket closed
+2024-06-06 21:14:34 - root - INFO - Socket connection closed
+2024-06-06 21:14:34 - root - INFO - ProblemSolver closed

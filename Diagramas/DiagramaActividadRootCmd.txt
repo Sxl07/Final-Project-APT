@@ -1,0 +1,51 @@
+@startuml
+start
+:Create request object;
+if (problem == "") then (yes)
+  :Display "Problem cannot be empty";
+  :Set bad as true;
+else (no)
+  :Continue;
+endif
+if (cant < 1) then (yes)
+  :Display "Quantity cannot be less than 1";
+  :Set bad as true;
+else (no)
+  :Continue;
+endif
+if (min < 0) then (yes)
+  :Display "Low limit cannot be negative";
+  :Set bad as true;
+else (no)
+  :Continue;
+endif
+if (max < min) then (yes)
+  :Display "Superior limit cannot be less than low limit";
+  :Set bad as true;
+else (no)
+  :Continue;
+endif
+if (bad == false) then (yes)
+  :Set port as "localhost:8080";
+  :Connect to server;
+  :Convert request to JSON;
+  :Send data to server;
+  :Receive response from server;
+  :Display response.Result;
+  if (result == "y" || result == "Y") then (yes)
+    :Set fileName as "results.txt";
+    :Concatenate response.Result with "\n";
+    :Open file "results.txt" for writing;
+    :Write content to the file;
+    :Close file;
+    :Display "File results.txt Created.";
+    :Display "Your results are on the results.txt file.";
+  else (no)
+    :Continue;
+  endif
+  :Close connection;
+else (no)
+  :Finish;
+endif
+stop
+@enduml

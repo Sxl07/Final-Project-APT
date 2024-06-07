@@ -1,0 +1,55 @@
+@startuml
+actor Client
+participant ProblemSolver as PS
+participant "ProblemSolver\nRSAEncryption\n(transmitter)" as Transmitter
+participant "ProblemSolver\nRSAEncryption\n(Receiver)" as Receiver
+participant "DataServer\n(requests)" as DataServer
+participant "FlaskServer\n(requests)" as FlaskServer
+participant "ProblemSolver\n(Type:IProblemSolver)" as IPS
+
+Client -> PS: Connect to server
+PS -> Client: Connection accepted
+loop Handle Requests
+    Client -> PS: Send request data
+    PS -> PS: Parse request data
+
+    alt Shutdown request
+        PS -> PS: check_password(password)
+        alt Correct password       
+            PS -> PS: SHUTDOWN_FLAG = True
+            PS -> FlaskServer: Shutdown server      
+            FlaskServer-> PS: Server Flask Down
+            PS -> Client: System down
+        else Incorrect password
+            PS -> Client: Incorrect password
+        end
+    else Problem solving request
+        PS -> Transmitter: Generate keys
+        Transmitter -> PS: Public keys
+        PS -> DataServer: Exchange keys
+        DataServer -> PS: Receiver key
+
+        alt Problem is fizzbuzz
+            PS -> FizzbuzzCreator: Create problem solver
+        else Problem is fibonacci
+            PS -> FibonacciCreator: Create problem solver
+        else Problem is prime
+            PS -> PrimeCreator: Create problem solver
+        end
+        
+        PS -> Transmitter: Encrypt parameters
+        Transmitter -> PS: Encrypted parameters
+        PS -> DataServer: Send encrypted parameters
+        DataServer -> PS: Encrypted response
+        PS -> Transmitter: Decrypt response
+        Transmitter -> PS: Decrypted response
+        
+        PS -> IPS: Problem solution
+        IPS-> PS: Solution
+        PS -> Client: Send result
+    else Unknown problem
+        PS -> Client: Problem not found
+    end
+end
+PS -> Client: Close connection
+@enduml

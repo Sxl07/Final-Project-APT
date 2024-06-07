@@ -1,0 +1,42 @@
+@startuml
+start
+if (password == "") then (yes)
+  :Display "a password is required, use -p 'password'";
+endif
+:Set filename as "key.txt";
+:Read secretKey from filename;
+if (error reading file) then (yes)
+  :Log fatal error "Error reading file";
+  stop
+else (no)
+  :Continue;
+endif
+:Create HMAC using sha256 with secretKey;
+:Write password to HMAC;
+:Compute hash;
+:Set hashPassword as hex string of hash;
+:Create request object with hashed password;
+
+:Set port as "localhost:8080";
+:Connect to server;
+if (error connecting to server) then (yes)
+  :Display error;
+endif
+:Convert request to JSON;
+if (error converting to JSON) then (yes)
+  :Log fatal error "error converting to JSON";
+  stop
+else (no)
+  :Continue;
+endif
+:Send JSON data to server;
+if (error sending data) then (yes)
+  :Display error;
+endif
+:Receive response from server;
+if (error receiving response) then (yes)
+  :Display error;
+endif
+:Display response.Result;
+stop
+@enduml

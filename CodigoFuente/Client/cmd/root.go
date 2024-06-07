@@ -52,17 +52,6 @@ to quickly create a Cobra application.`,
 			Password: "",
 		}
 
-		port := "localhost:8080"
-		conn, err := functions.OnServer(port)
-		if err != nil {
-			fmt.Println("Error:", err)
-		}
-
-		jsonData, err := json.Marshal(request)
-		if err != nil {
-			fmt.Println("error:", err)
-		}
-
 		bad := false
 		if problem == "" {
 			fmt.Println("Problem cannot be empty")
@@ -82,6 +71,17 @@ to quickly create a Cobra application.`,
 		}
 
 		if !bad {
+			port := "localhost:8080"
+			conn, err := functions.OnServer(port)
+			if err != nil {
+				fmt.Println("Error:", err)
+			}
+
+			jsonData, err := json.Marshal(request)
+			if err != nil {
+				fmt.Println("error:", err)
+			}
+
 			err = functions.SendData(jsonData, conn)
 			if err != nil {
 				fmt.Println("Error:", err)
@@ -111,8 +111,8 @@ to quickly create a Cobra application.`,
 				fmt.Println("File results.txt Created.")
 				fmt.Println("Your results are on the results.txt file.")
 			}
+			conn.Close()
 		}
-		conn.Close()
 	},
 }
 

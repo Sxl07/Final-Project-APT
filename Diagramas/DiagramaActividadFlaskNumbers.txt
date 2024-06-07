@@ -1,0 +1,33 @@
+@startuml
+start
+
+:Receive POST request at "/numbers";
+:Obtain JSON data from the request;
+:Extract 'parameters_encrypted' from request data;
+
+:Decrypt 'parameters_encrypted';
+:Parse decrypted result into a JSON dictionary;
+
+:Extract 'cant', 'min', and 'max' from the JSON dictionary;
+
+:Randomly choose a value for 'flag' (True or False);
+
+if (flag is True) then (yes)
+    :Create an instance of RandomNormalDistribution;
+else (no)
+    :Create an instance of RandomUniformDistribution;
+endif
+
+:Call generate_numbers with 'cant', 'min', and 'max';
+:Convert each number to its absolute value and to string;
+
+:Create a dictionary with the generated numbers;
+
+:Convert the dictionary to a JSON string;
+:Encrypt the JSON string with 'transmitter_key.pem';
+
+:Create a JSON response with the encrypted message;
+:Return the JSON response;
+
+stop
+@enduml
