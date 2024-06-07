@@ -1,7 +1,9 @@
+"""File 'Product' of Factory Method"""
 from abc import ABC, abstractmethod
 from typing import List
 
-class IProblemSolver(ABC):
+class IProblemSolver(ABC):# pylint: disable=R0903
+    """Interface to solve Problems"""
     @abstractmethod
     def compute_results(self, data: List) -> List:
-        pass
+        """Abstract Method to compute the results"""

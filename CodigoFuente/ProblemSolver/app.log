@@ -685,3 +685,141 @@
 2024-06-06 17:29:58 - root - INFO - Client socket closed
 2024-06-06 17:29:58 - root - INFO - Socket connection closed
 2024-06-06 17:29:58 - root - INFO - ProblemSolver closed
+2024-06-06 19:56:37 - root - INFO - -------------------------------
+2024-06-06 19:56:37 - root - INFO - Connection accepted by: ('127.0.0.1', 51662)
+2024-06-06 19:56:37 - root - INFO - Request data received by Client
+2024-06-06 19:56:42 - root - INFO - Public encryption keys exchanged
+2024-06-06 19:56:42 - root - INFO - Data encrypted
+2024-06-06 19:56:42 - root - INFO - Sending data encrypt to DataServer
+2024-06-06 19:56:44 - root - INFO - Encrypted response data received by DataServer
+2024-06-06 19:56:44 - root - INFO - Client socket closed
+2024-06-06 19:57:38 - root - INFO - -------------------------------
+2024-06-06 19:57:38 - root - INFO - Connection accepted by: ('127.0.0.1', 51686)
+2024-06-06 19:57:38 - root - INFO - Request data received by Client
+2024-06-06 19:57:42 - root - INFO - Public encryption keys exchanged
+2024-06-06 19:57:42 - root - INFO - Data encrypted
+2024-06-06 19:57:42 - root - INFO - Sending data encrypt to DataServer
+2024-06-06 19:57:44 - root - INFO - Encrypted response data received by DataServer
+2024-06-06 19:57:44 - root - INFO - Response data decrypted
+2024-06-06 19:57:44 - root - INFO - Resolving problem fizzbuzz
+2024-06-06 19:57:44 - root - INFO - Client socket closed
+2024-06-06 20:03:19 - root - INFO - -------------------------------
+2024-06-06 20:03:19 - root - INFO - Connection accepted by: ('127.0.0.1', 51748)
+2024-06-06 20:03:19 - root - INFO - Request data received by Client
+2024-06-06 20:03:22 - root - INFO - Public encryption keys exchanged
+2024-06-06 20:03:22 - root - INFO - Data encrypted
+2024-06-06 20:03:22 - root - INFO - Sending data encrypt to DataServer
+2024-06-06 20:03:24 - root - INFO - Encrypted response data received by DataServer
+2024-06-06 20:03:24 - root - INFO - Response data decrypted
+2024-06-06 20:03:24 - root - INFO - Resolving problem fizzbuzz
+2024-06-06 20:03:24 - root - INFO - Client socket closed
+2024-06-06 20:06:47 - root - INFO - -------------------------------
+2024-06-06 20:06:47 - root - INFO - Connection accepted by: ('127.0.0.1', 51796)
+2024-06-06 20:06:47 - root - INFO - Request data received by Client
+2024-06-06 20:06:52 - root - INFO - Public encryption keys exchanged
+2024-06-06 20:06:52 - root - INFO - Data encrypted
+2024-06-06 20:06:52 - root - INFO - Sending data encrypt to DataServer
+2024-06-06 20:06:54 - root - INFO - Encrypted response data received by DataServer
+2024-06-06 20:06:54 - root - INFO - Response data decrypted
+2024-06-06 20:06:54 - root - INFO - Resolving problem fizzbuzz
+2024-06-06 20:06:54 - root - INFO - Problem solved successfully
+2024-06-06 20:06:54 - root - INFO - Results sent to Client
+2024-06-06 20:06:54 - root - INFO - Client socket closed
+2024-06-06 20:07:19 - root - INFO - -------------------------------
+2024-06-06 20:07:19 - root - INFO - Connection accepted by: ('127.0.0.1', 51804)
+2024-06-06 20:07:19 - root - INFO - Request data received by Client
+2024-06-06 20:07:22 - root - INFO - Public encryption keys exchanged
+2024-06-06 20:07:22 - root - INFO - Data encrypted
+2024-06-06 20:07:22 - root - INFO - Sending data encrypt to DataServer
+2024-06-06 20:07:24 - root - INFO - Encrypted response data received by DataServer
+2024-06-06 20:07:24 - root - INFO - Response data decrypted
+2024-06-06 20:07:24 - root - INFO - Resolving problem prime
+2024-06-06 20:07:24 - root - INFO - Problem solved successfully
+2024-06-06 20:07:24 - root - INFO - Results sent to Client
+2024-06-06 20:07:24 - root - INFO - Client socket closed
+2024-06-06 20:07:45 - root - INFO - -------------------------------
+2024-06-06 20:07:45 - root - INFO - Connection accepted by: ('127.0.0.1', 51815)
+2024-06-06 20:07:45 - root - INFO - Request data received by Client
+2024-06-06 20:07:48 - root - INFO - Public encryption keys exchanged
+2024-06-06 20:07:48 - root - INFO - Data encrypted
+2024-06-06 20:07:48 - root - INFO - Sending data encrypt to DataServer
+2024-06-06 20:07:50 - root - INFO - Encrypted response data received by DataServer
+2024-06-06 20:07:50 - root - INFO - Response data decrypted
+2024-06-06 20:07:50 - root - INFO - Resolving problem fibonacci
+2024-06-06 20:07:50 - root - INFO - Problem solved successfully
+2024-06-06 20:07:50 - root - INFO - Results sent to Client
+2024-06-06 20:07:50 - root - INFO - Client socket closed
+2024-06-06 20:08:12 - root - INFO - -------------------------------
+2024-06-06 20:08:12 - root - INFO - Connection accepted by: ('127.0.0.1', 51825)
+2024-06-06 20:08:12 - root - INFO - Request data received by Client
+2024-06-06 20:08:12 - root - INFO - Shutdown request received
+2024-06-06 20:08:12 - root - INFO - Shutdown request denied(Incorrect password)
+2024-06-06 20:08:12 - root - INFO - Problem not found
+2024-06-06 20:08:12 - root - INFO - Reconnected to ('127.0.0.1', 51825)
+2024-06-06 20:08:12 - root - INFO - Client socket closed
+2024-06-06 20:08:21 - root - INFO - -------------------------------
+2024-06-06 20:08:21 - root - INFO - Connection accepted by: ('127.0.0.1', 51829)
+2024-06-06 20:08:21 - root - INFO - Request data received by Client
+2024-06-06 20:08:21 - root - INFO - Shutdown request received
+2024-06-06 20:08:21 - root - INFO - Shutdown request accepted
+2024-06-06 20:08:21 - root - INFO - Closing client socket
+2024-06-06 20:08:21 - root - INFO - Closing Flask server
+2024-06-06 20:08:23 - root - INFO - Flask connection closed
+2024-06-06 20:08:23 - root - INFO - Client socket closed
+2024-06-06 20:08:23 - root - INFO - Socket connection closed
+2024-06-06 20:08:23 - root - INFO - ProblemSolver closed
+2024-06-06 20:21:41 - root - INFO - -------------------------------
+2024-06-06 20:21:41 - root - INFO - Connection accepted by: ('127.0.0.1', 51943)
+2024-06-06 20:21:41 - root - INFO - Request data received by Client
+2024-06-06 20:21:44 - root - INFO - Public encryption keys exchanged
+2024-06-06 20:21:44 - root - INFO - Data encrypted
+2024-06-06 20:21:44 - root - INFO - Sending data encrypt to DataServer
+2024-06-06 20:21:46 - root - INFO - Encrypted response data received by DataServer
+2024-06-06 20:21:46 - root - INFO - Response data decrypted
+2024-06-06 20:21:46 - root - INFO - Resolving problem fizzbuzz
+2024-06-06 20:21:46 - root - INFO - Problem solved successfully
+2024-06-06 20:21:46 - root - INFO - Results sent to Client
+2024-06-06 20:21:46 - root - INFO - Client socket closed
+2024-06-06 20:21:58 - root - INFO - -------------------------------
+2024-06-06 20:21:58 - root - INFO - Connection accepted by: ('127.0.0.1', 51950)
+2024-06-06 20:21:58 - root - INFO - Request data received by Client
+2024-06-06 20:22:02 - root - INFO - Public encryption keys exchanged
+2024-06-06 20:22:02 - root - INFO - Data encrypted
+2024-06-06 20:22:02 - root - INFO - Sending data encrypt to DataServer
+2024-06-06 20:22:04 - root - INFO - Encrypted response data received by DataServer
+2024-06-06 20:22:04 - root - INFO - Response data decrypted
+2024-06-06 20:22:04 - root - INFO - Resolving problem prime
+2024-06-06 20:22:04 - root - INFO - Problem solved successfully
+2024-06-06 20:22:04 - root - INFO - Results sent to Client
+2024-06-06 20:22:04 - root - INFO - Client socket closed
+2024-06-06 20:22:13 - root - INFO - -------------------------------
+2024-06-06 20:22:13 - root - INFO - Connection accepted by: ('127.0.0.1', 51957)
+2024-06-06 20:22:13 - root - INFO - Request data received by Client
+2024-06-06 20:22:15 - root - INFO - Public encryption keys exchanged
+2024-06-06 20:22:15 - root - INFO - Data encrypted
+2024-06-06 20:22:15 - root - INFO - Sending data encrypt to DataServer
+2024-06-06 20:22:17 - root - INFO - Encrypted response data received by DataServer
+2024-06-06 20:22:17 - root - INFO - Response data decrypted
+2024-06-06 20:22:17 - root - INFO - Resolving problem fibonacci
+2024-06-06 20:22:17 - root - INFO - Problem solved successfully
+2024-06-06 20:22:17 - root - INFO - Results sent to Client
+2024-06-06 20:22:17 - root - INFO - Client socket closed
+2024-06-06 20:22:23 - root - INFO - -------------------------------
+2024-06-06 20:22:23 - root - INFO - Connection accepted by: ('127.0.0.1', 51963)
+2024-06-06 20:22:23 - root - INFO - Request data received by Client
+2024-06-06 20:22:23 - root - INFO - Shutdown request received
+2024-06-06 20:22:23 - root - INFO - Shutdown request denied(Incorrect password)
+2024-06-06 20:22:23 - root - INFO - Problem not found
+2024-06-06 20:22:23 - root - INFO - Reconnected to ('127.0.0.1', 51963)
+2024-06-06 20:22:23 - root - INFO - Client socket closed
+2024-06-06 20:22:29 - root - INFO - -------------------------------
+2024-06-06 20:22:29 - root - INFO - Connection accepted by: ('127.0.0.1', 51965)
+2024-06-06 20:22:29 - root - INFO - Request data received by Client
+2024-06-06 20:22:29 - root - INFO - Shutdown request received
+2024-06-06 20:22:29 - root - INFO - Shutdown request accepted
+2024-06-06 20:22:29 - root - INFO - Closing client socket
+2024-06-06 20:22:29 - root - INFO - Closing Flask server
+2024-06-06 20:22:31 - root - INFO - Flask connection closed
+2024-06-06 20:22:31 - root - INFO - Client socket closed
+2024-06-06 20:22:31 - root - INFO - Socket connection closed
+2024-06-06 20:22:31 - root - INFO - ProblemSolver closed

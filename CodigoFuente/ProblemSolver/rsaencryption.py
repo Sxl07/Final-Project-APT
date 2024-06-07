@@ -1,11 +1,13 @@
-from Crypto.PublicKey import RSA
-from Crypto.Cipher import PKCS1_OAEP, AES
-from Crypto.Random import get_random_bytes
+"""File to manage the hybrid encryption"""
 import binascii
 import os
 import json
+from Crypto.PublicKey import RSA
+from Crypto.Cipher import PKCS1_OAEP, AES
+from Crypto.Random import get_random_bytes
 
 class RSAEncryption:
+    """Class that use RSA and AES"""
     def __init__(self, key_name):
         self.private_key_path = f"{key_name}_private.pem"
         self.public_key_path = f"{key_name}_public.pem"
@@ -16,16 +18,19 @@ class RSAEncryption:
             self.generate_keys()
         else:
             self.load_keys()
-    
+
     def get_public_key(self):
+        """Method to get the public key"""
         return self.public_key.export_key().decode()
 
     def to_json(self):
+        """method to create a json with the public key"""
         return {
             "public_key": self.get_public_key()
         }
 
     def generate_keys(self):
+        """Method to generate the keys"""
         key = RSA.generate(2048)
         self.private_key = key
         self.public_key = key.publickey()
@@ -37,6 +42,7 @@ class RSAEncryption:
             public_file.write(self.public_key.export_key())
 
     def load_keys(self):
+        """Method to get the keys by the path"""
         with open(self.private_key_path, 'rb') as private_file:
             self.private_key = RSA.import_key(private_file.read())
 
@@ -44,6 +50,7 @@ class RSAEncryption:
             self.public_key = RSA.import_key(public_file.read())
 
     def encrypt_message(self, message, public_key_path):
+        """Method to encrypt"""
         if isinstance(message, str):
             message = message.encode()
 
@@ -66,6 +73,7 @@ class RSAEncryption:
         return json.dumps(encrypted_data)
 
     def decrypt_message(self, encrypted_message):
+        """Method to Decrypt"""
         encrypted_data = json.loads(encrypted_message)
         encrypted_aes_key = binascii.unhexlify(encrypted_data['aes_key'])
         nonce = binascii.unhexlify(encrypted_data['nonce'])

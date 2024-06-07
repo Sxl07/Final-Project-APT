@@ -1,6 +1,8 @@
+"""Interface to generate distribution"""
 from abc import ABC, abstractmethod
 
-class IRandomNumber(ABC):
+class IRandomNumber(ABC): # pylint: disable=R0903
+    """Interface with abstract method"""
     @abstractmethod
-    def generateNumbers(self,cant,min,max):
-        pass
+    def generate_numbers(self,cant,mini,maxi):
+        """Method to generate numbers with parameters"""

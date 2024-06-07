@@ -1,50 +1,56 @@
+"""Main file (ProblemSolver)"""
 import hashlib
 import hmac
 import socket
 import json
+import logging
 import requests # type: ignore
+from rsaencryption import RSAEncryption
 from FactoryMethod.fizzbuzzcreator import FizzbuzzCreator
 from FactoryMethod.fibonaccicreator import FibonacciCreator
 from FactoryMethod.primecreator import PrimeCreator
-from rsaencryption import RSAEncryption
-import logging
-shutdown_flag = False
 
-def readFileConfiguration():
+SHUTDOWN_FLAG = False
+
+def read_file_configuration():
+    """function to read the config file"""
     config = {}
-    with open("config.txt", 'r') as file:
+    with open("config.txt", 'r',encoding='utf-8') as file:
         for line in file:
-            line = line.strip()     
+            line = line.strip()
             if line:
                 key, value = line.split(':', 1)
                 config[key.strip()] = value.strip()
     return config.get('KEY'),config.get('PASSWORD')
 
-def hashPassword():
-    key,correct=readFileConfiguration()
+def hash_password():
+    """function to hash the correct password"""
+    key,correct=read_file_configuration()
     if isinstance(correct, str):
         correct = correct.encode()
     if isinstance(key, str):
         key = key.encode()
-    
+
     hmac_obj = hmac.new(key, correct, hashlib.sha256)
     return hmac_obj.hexdigest()
 
-def checkPassword(password):
-    correctPassword=hashPassword()
-    if password==correctPassword:
+def check_password(password):
+    """function to check the password to shutdown"""
+    correct_password=hash_password()
+    if password==correct_password:
         return True
     return False
 
 def solve_problem(problem, parameters, transmitter, receiver_key):
+    """function to do the process of solve problems"""
     if problem == "fizzbuzz":
-        problemSolver=FizzbuzzCreator()
+        problem_solver=FizzbuzzCreator()
     if problem == "fibonacci":
-        problemSolver=FibonacciCreator()
+        problem_solver=FibonacciCreator()
     if problem == "prime":
-        problemSolver=PrimeCreator()
+        problem_solver=PrimeCreator()
 
-    with open("receiver_key.pem","w") as file:
+    with open("receiver_key.pem","w",encoding='utf-8') as file:
         file.write(receiver_key)
 
     parameters_encrypted=transmitter.encrypt_message(json.dumps(parameters),'receiver_key.pem')
@@ -53,19 +59,20 @@ def solve_problem(problem, parameters, transmitter, receiver_key):
         "parameters_encrypted":parameters_encrypted
     }
     logging.info("Sending data encrypt to DataServer")
-    response=requests.post('http://localhost:5000/numbers',json=send)
+    response=requests.post('http://localhost:5000/numbers',json=send,timeout=60)
     logging.info("Encrypted response data received by DataServer")
     back_encrypted=response.json()['response_encrypted']
     back_decrypted=transmitter.decrypt_message(back_encrypted)
     logging.info("Response data decrypted")
     numbers=json.loads(back_decrypted)['Numbers']
-    logging.info(f'Resolving problem {problem}')
-    result=problemSolver.problemSolution(numbers)
+    logging.info('Resolving problem %s',problem)
+    result=problem_solver.problem_solution(numbers)
     logging.info('Problem solved successfully')
     return result
 
-def handle_client_connection(client_socket,addr):
-    global shutdown_flag
+def handle_client_connection(client_socket,addr):# pylint: disable=R0914,R0915
+    """Function to manage the code flow, mainly the socket connection"""
+    global SHUTDOWN_FLAG
     try:
         while True:
             request_data = client_socket.recv(1024)
@@ -83,30 +90,29 @@ def handle_client_connection(client_socket,addr):
             password = request.get('Password')
             if shutdown == 1:
                 logging.info("Shutdown request received")
-                if checkPassword(password):
+                if check_password(password):
                     print("Shutdown request accepted.")
                     logging.info("Shutdown request accepted")
                     response['Result'] = ["System down"]
                     response_shutdown = json.dumps(response)
                     client_socket.send(response_shutdown.encode('utf-8'))
-                    shutdown_flag = True
+                    SHUTDOWN_FLAG = True
                     logging.info("Closing client socket")
                     logging.info("Closing Flask server")
-                    requests.post('http://localhost:5000/shutdown')
+                    requests.post('http://localhost:5000/shutdown',timeout=60)
                     break
-                else:
-                    print("Shutdown request denied, incorrect password.")
-                    logging.info("Shutdown request denied(Incorrect password)")
-                    response['Result'] = ["Incorrect password"]
-                    response_shutdown = json.dumps(response)
-                    client_socket.send(response_shutdown.encode('utf-8'))
+                print("Shutdown request denied, incorrect password.")
+                logging.info("Shutdown request denied(Incorrect password)")
+                response['Result'] = ["Incorrect password"]
+                response_shutdown = json.dumps(response)
+                client_socket.send(response_shutdown.encode('utf-8'))
 
             problems=["fizzbuzz","fibonacci","prime"]
             if request.get('Problem') in problems:
                 transmitter=RSAEncryption('transmitter')
                 transmitter.generate_keys()
                 transmitter_key=transmitter.to_json()
-                key_response=requests.post('http://localhost:5000/key',json=transmitter_key)       
+                key_response=requests.post('http://localhost:5000/key',json=transmitter_key,timeout=60)# pylint: disable=C0301
                 receiver_key=key_response.json()['public_key']
                 logging.info("Public encryption keys exchanged")
 
@@ -120,7 +126,7 @@ def handle_client_connection(client_socket,addr):
                 "max":max_value,
                 }
 
-                print(f"Resolving problem: {problem} with {values_count} values between {min_value} and {max_value}")
+                print(f"Resolving problem: {problem} with {values_count} values between {min_value} and {max_value}")# pylint: disable=C0301
                 result = solve_problem(problem, parameters,transmitter,receiver_key)
                 response['Result']=result
                 response_data = json.dumps(response)
@@ -138,7 +144,7 @@ def handle_client_connection(client_socket,addr):
     except ConnectionResetError:
         print(f"Reconnecting to client_socket...")
         print('Connection accepted by:', addr)
-        logging.info(f'Reconnected to {addr}')
+        logging.info('Reconnected to %s',addr)
     except requests.exceptions.ConnectionError:
         print("Flask Connection Down Success")
         logging.info("Flask connection closed")
@@ -148,25 +154,26 @@ def handle_client_connection(client_socket,addr):
         client_socket.close()
 
 def main():
+    """main"""
     logging.basicConfig(filename='app.log',
     filemode='a',
     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
     datefmt='%Y-%m-%d %H:%M:%S',
     level=logging.INFO)
 
-    global shutdown_flag
+    global SHUTDOWN_FLAG
     server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     server_socket.bind(('0.0.0.0', 8080))
     server_socket.listen(5)
     print('Server listening at the port 8080...')
-    
-    while not shutdown_flag:
+
+    while not SHUTDOWN_FLAG:
         client_socket, addr = server_socket.accept()
         print('Connection accepted by:', addr)
         logging.info("-------------------------------")
-        logging.info(f'Connection accepted by: {addr}')
-        handle_client_connection(client_socket,addr) 
-    
+        logging.info('Connection accepted by: %s',addr)
+        handle_client_connection(client_socket,addr)
+
     server_socket.close()
     logging.info("Socket connection closed")
     print("Server socket off")
